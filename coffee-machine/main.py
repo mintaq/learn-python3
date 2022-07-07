@@ -1,27 +1,26 @@
 from cmath import pi
-import re
 from data import MENU, resources, coins_value
 
+total_money = 0
 
 def main():
-    total_money = 0
-    user_order = input("“What would you like? (espresso/latte/cappuccino): ")
-    if user_order == "off":
-        return print("Turn off")
-    elif user_order == "report":
-        return print_report(total_money)
-
-    if check_resources_sufficient(user_order):
-        inserted_coins_value = insert_coins()
-        if check_enough_inserted_coins(user_order, inserted_coins_value):
-            total_money += inserted_coins_value
-            deduct_resources(user_order)
-            
-        
-    print(total_money)
+    is_on = True
+    while is_on:
+        user_order = input(
+            "What would you like? (espresso/latte/cappuccino): ")
+        if user_order == "off":
+            return print("Turn off!")
+        elif user_order == "report":
+            print_report()
+        else:
+            if check_resources_sufficient(user_order):
+                money_received = insert_coins()
+                if is_transaction_successful(user_order, money_received):
+                    deduct_resources(user_order)
 
 
-def print_report(total_money):
+def print_report():
+    global total_money
     for resource in resources:
         if resource == "water":
             print(f"Water: {resources[resource]}ml")
@@ -67,11 +66,18 @@ def insert_coins():
         coins_value["pennies"] * pennies_number
     return round(total_value, 2)
 
-def check_enough_inserted_coins(user_order, inserted_coins_value):
-    picked_drink_price = MENU[user_order]["cost"]
-    if picked_drink_price < inserted_coins_value:
-        return False
-    else:
+
+def is_transaction_successful(user_order, money_received):
+    global total_money
+    drink_price = MENU[user_order]["cost"]
+    if drink_price <= money_received:
+        total_money += drink_price
+        change = round(money_received - drink_price, 2)
+        print(f"Here is your charge: ${change}")
         return True
+    else:
+        print(f"You not insert enough coins. Transaction failed!")
+        return False
+
 
 main()
