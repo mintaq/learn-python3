@@ -31,6 +31,22 @@ class Snake:
         """Add a new segment to the snake."""
         self.add_segment(self.segments[-1].position())
 
+    def is_collision_with_food(self, food, max_distance=15):
+        return self.head.distance(food) < max_distance
+
+    def is_collision_with_wall(self, wall_border=290):
+        return self.head.xcor() > wall_border or \
+            self.head.xcor() < -wall_border or \
+            self.head.ycor() > wall_border or \
+            self.head.ycor() < -wall_border
+
+    def is_collision_with_tail(self, max_distance=10):
+        for segment in self.segments[1:]:
+            if self.head.distance(segment) < max_distance:
+                return True
+
+        return False
+
     def move(self):
         for seg_num in range(len(self.segments) - 1, 0, -1):
             new_x = self.segments[seg_num - 1].xcor()
