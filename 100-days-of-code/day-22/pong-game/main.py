@@ -26,7 +26,7 @@ game_is_on = True
 ball_directions = (5, -1)
 while game_is_on:
     screen.update()
-    time.sleep(0.1)
+    time.sleep(ball.move_speed)
     ball.move()
 
     # Detect collision with wall
