@@ -21,8 +21,8 @@ class QuickMath():
         while number_of_questions > 0:
             number_of_questions -= 1
             arithmetic_operator = random.choice(OPERATORS)
-            number_a = random.randint(0, 25)
-            number_b = random.randint(0, 25)
+            number_a = random.randint(0, 30)
+            number_b = random.randint(0, number_a)
             text = f"{number_a} {arithmetic_operator} {number_b}"
             if arithmetic_operator == MULTIPLICATION:
                 number_a = random.randint(0, 10)
@@ -32,11 +32,7 @@ class QuickMath():
             elif arithmetic_operator == ADDITION:
                 answer = number_a + number_b
             elif arithmetic_operator == SUBTRACTION:
-                if number_a >= number_b:
-                    answer = number_a - number_b
-                else:
-                    answer = number_b - number_a
-                    text = f"{number_b} {arithmetic_operator} {number_a}"
+                answer = number_a - number_b
 
             question_list.append(
                 Question(text, answer))
@@ -58,4 +54,3 @@ class QuickMath():
         else:
             question.user_answer = answer
             self.wrong_answer_lists.append(question)
-            
