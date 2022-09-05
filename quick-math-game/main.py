@@ -1,6 +1,6 @@
 from quick_math import QuickMath
 
-number_of_questions = int(input(f"How many question do you want:"))
+number_of_questions = input(f"How many question do you want:")
 
 quick_math = QuickMath(number_of_questions)
 

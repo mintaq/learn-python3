@@ -1,4 +1,3 @@
-from multiprocessing.connection import answer_challenge
 from question_model import Question
 import random
 
@@ -7,6 +6,7 @@ SUBTRACTION = '-'
 MULTIPLICATION = '*'
 DIVISION = '/'
 OPERATORS = [ADDITION, SUBTRACTION, MULTIPLICATION]
+NUMBER_OF_QUESTION = 65
 
 
 class QuickMath():
@@ -16,8 +16,27 @@ class QuickMath():
         self.question_list = self.question_generator(number_of_questions)
         self.wrong_answer_lists = []
 
-    def question_generator(self, number_of_questions):
+
+    def question_generator(self, number_of_questions: str):
+        """
+        Create questions according to the number of requests 
+        
+        Parameters
+        ----------
+        number_of_questions: str
+        
+        Return
+        ------
+        list
+            List of questions
+        
+        """
         question_list = []
+        if not number_of_questions.isnumeric():
+            number_of_questions = NUMBER_OF_QUESTION
+        else:
+            number_of_questions = int(number_of_questions)
+
         while number_of_questions > 0:
             number_of_questions -= 1
             arithmetic_operator = random.choice(OPERATORS)
@@ -49,7 +68,7 @@ class QuickMath():
         return self.check_answer(user_answer, current_question)
 
     def check_answer(self, answer, question):
-        if int(answer) == int(question.answer):
+        if answer.isnumeric() and int(answer) == int(question.answer):
             self.score += 1
         else:
             question.user_answer = answer
