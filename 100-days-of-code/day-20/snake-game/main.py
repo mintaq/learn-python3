@@ -39,11 +39,13 @@ while game_is_on:
     # Detect collision with wall.
     if snake.is_collision_with_wall(WALL_BORDER):
         game_is_on = False
-        scoreboard.game_over()
+        scoreboard.reset()
+        snake.reset()
 
     # Detect collision with tail.
     if snake.is_collision_with_tail(TAIL_COLLISION_DISTANCE):
         game_is_on = False
-        scoreboard.game_over()
+        scoreboard.reset()
+        snake.reset()
 
 screen.exitonclick()
